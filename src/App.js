@@ -13,7 +13,7 @@ class App extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {items: [], text: '', priority: 0, dueDate: moment()};
+        this.state = {items: [], text: '', priority: 0, dueDate: moment(), isLoggedIn: JSON.parse(localStorage.getItem('isLoggedIn'))};
         this.handleTextChange = this.handleTextChange.bind(this);
         this.handlePriorityChange = this.handlePriorityChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
@@ -26,8 +26,8 @@ class App extends Component {
             <Login/>
         );
         
-        const TodoAppView = () => (
-            <TodoApp/>
+        const TodoAppView = () => ( 
+            <TodoApp text='{this.state.text}' priority='{this.state.priority}' dueDate='{this.state.dueDate}' />
         );
         return (
             <Router>
@@ -39,15 +39,15 @@ class App extends Component {
 
                     <br/>
                     <br/>
-
+                    {/*
                     <ul>
                         <li><Link to="/">Login</Link></li>
                         <li><Link to="/todo">Todo</Link></li>
                     </ul>
+                    */}
 
                     <div>
-                        <Route exact path="/" component={LoginView}/>
-                        <Route path="/todo" component={TodoAppView}/>
+                        <Route component={!this.state.isLoggedIn ? LoginView : TodoAppView}/>
                     </div>
                 </div>
             </Router>
